@@ -1,0 +1,90 @@
+﻿@model IEnumerable<CRUD_Alumnos.Models.alumno>
+
+@{
+    ViewBag.Title = "Lista Alumnos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lista de Alumnos</h2>
+
+<p>
+    @Html.ActionLink("Create Nuevo", "Agregar")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Nombre Completo
+        </th>
+        <th>
+            Edad
+        </th>
+        <th>
+            Sexo
+        </th>
+        <th>
+            Ciudad
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.NombreCompleto)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.Edad)
+    </td>
+    <td>
+        @{
+            if (item.Sexo == "M")
+            {
+
+
+                <span>Masculino</span>
+            }
+            else
+            {
+                <span>Femenino</span>
+            }
+        }
+
+
+    </td>
+
+    <td>
+          @CRUD_Alumnos.Controllers.AlumnoController.NombreCiudad(item.CodCiudad)
+
+    </td>
+    
+    <td>
+        @item.FechaRegistro.ToShortDateString()
+
+    </td>
+    <td>
+        @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+        @Html.ActionLink("Detalles", "Detalles", new { id = item.Id }) |
+        @Html.ActionLink("Eliminar", "Eliminaralumno", new { id = item.Id }, new { @class = "aEliminar" })
+    </td>
+</tr>
+}
+
+</table>
+
+@section scripts{
+    <script>
+
+        $(".aEliminar").click(function (event) {
+            if (!confirm('Esta seguro de eliminar a este Alumno ?')) {
+                event.preventDefault();
+            }
+        });
+
+    </script>
+    
+    
+    }
