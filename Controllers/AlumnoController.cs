@@ -16,33 +16,40 @@ namespace CRUD_Alumnos.Controllers
         {
             try
             {
+                //int edad = 18;
+                //string sql = @" 
+                //            select a.Id, a.Nombre, a.Apellido, a.Edad, a.Sexo, a.FechaRegistro, c.Nombre as NombreCiudad
+                //            from alumno a
+                //            inner join Ciudades c on a.CodCiudad = c.Id
+                //            where a.Edad > @edad";
+
                 using (var db = new alumnosdbContext())
                 {
-                    //List<alumno> lista = db.alumno.Where(a => a.Edad > 18).ToList();
-                    //return View((from alumnos in db.alumno
-                    //    select new AlumnosCE()
-                    //    {
-                    //        Id = alumnos.Id,
-                    //        Nombre = alumnos.Nombre,
-                    //        Edad = alumnos.Edad,
-                    //        Sexo = alumnos.Sexo,
-                    //        CodCiudad = alumnos.CodCiudad,
-                    //        FechaRegistro = alumnos.FechaRegistro
+                    var data = from a in db.alumno
+                               join c in db.Ciudades on a.CodCiudad equals c.Id
+                               select new AlumnosCE()
+                               {
+                                   Id = a.Id,
+                                   Nombre = a.Nombre,
+                                   Apellido = a.Apellido,
+                                   Edad = a.Edad,
+                                   Sexo = a.Sexo,
+                                   NombreCiudad = c.Nombre,
+                                   FechaRegistro = a.FechaRegistro
+                               };
 
-                    //    }).ToList());
+                    return View(data.ToList());
 
-                    return View(db.alumno.ToList());
+                    //return View(db.Database.SqlQuery<AlumnosCE>(sql,
+                    //    new System.Data.SqlClient.SqlParameter("@edad", edad)).ToList());
                 }
             }
             catch (Exception)
             {
-
                 throw;
             }
 
-
         }
-
 
         public ActionResult Agregar()
         {
@@ -77,7 +84,6 @@ namespace CRUD_Alumnos.Controllers
         {
             return View();
         }
-
         public ActionResult ListaCiudades()
         {
             using (var db = new alumnosdbContext())
@@ -86,7 +92,6 @@ namespace CRUD_Alumnos.Controllers
 
             }
         }
-
 
         public ActionResult Editar(int id)
         {
@@ -101,13 +106,11 @@ namespace CRUD_Alumnos.Controllers
             }
             catch (Exception ex)
             {
-
                 throw;
             }
 
-
-
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -125,8 +128,8 @@ namespace CRUD_Alumnos.Controllers
                     al.Apellido = a.Apellido;
                     al.Edad = a.Edad;
                     al.Sexo = a.Sexo;
-
                     al.CodCiudad = a.CodCiudad;
+
                     db.SaveChanges();
 
                     return RedirectToAction("Index");
@@ -135,10 +138,8 @@ namespace CRUD_Alumnos.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
-
 
         }
 
@@ -176,7 +177,6 @@ namespace CRUD_Alumnos.Controllers
             }
         }
 
-
         public static string NombreCiudad(int Codciudad)
         {
             using (var db = new alumnosdbContext())
@@ -185,11 +185,6 @@ namespace CRUD_Alumnos.Controllers
             }
         }
 
-
-
-
     }
-
-
 
 }

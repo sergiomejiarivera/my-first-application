@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CRUD_Alumnos.Models.alumno>
+﻿@model IEnumerable<CRUD_Alumnos.Models.AlumnosCE>
 
 @{
     ViewBag.Title = "Lista Alumnos";
@@ -30,48 +30,49 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.NombreCompleto)
-    </td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCompleto)
+            </td>
 
-    <td>
-        @Html.DisplayFor(modelItem => item.Edad)
-    </td>
-    <td>
-        @{
-            if (item.Sexo == "M")
-            {
-
-
-                <span>Masculino</span>
-            }
-            else
-            {
-                <span>Femenino</span>
-            }
-        }
+            <td>
+                @Html.DisplayFor(modelItem => item.Edad)
+            </td>
+            <td>
+                @{
+                    if (item.Sexo == "M")
+                    {
 
 
-    </td>
+                        <span>Masculino</span>
+                    }
+                    else
+                    {
+                        <span>Femenino</span>
+                    }
+                }
 
-    <td>
-          @CRUD_Alumnos.Controllers.AlumnoController.NombreCiudad(item.CodCiudad)
 
-    </td>
-    
-    <td>
-        @item.FechaRegistro.ToShortDateString()
+            </td>
 
-    </td>
-    <td>
-        @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
-        @Html.ActionLink("Detalles", "Detalles", new { id = item.Id }) |
-        @Html.ActionLink("Eliminar", "Eliminaralumno", new { id = item.Id }, new { @class = "aEliminar" })
-    </td>
-</tr>
-}
+            <td>
+                @item.NombreCiudad
+
+            </td>
+
+            <td>
+                @item.FechaRegistro.ToShortDateString()
+
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                @Html.ActionLink("Detalles", "Detalles", new { id = item.Id }) |
+                @Html.ActionLink("Eliminar", "Eliminaralumno", new { id = item.Id }, new { @class = "aEliminar" })
+            </td>
+        </tr>
+    }
 
 </table>
 @section scripts{
@@ -84,6 +85,5 @@
         });
 
     </script>
-    
-    
-    }
+
+}
